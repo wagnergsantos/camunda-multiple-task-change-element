@@ -6,7 +6,7 @@
 
 ## English
 
-A plugin for [Camunda Modeler](https://camunda.com/download/modeler/) that shows the **Change element** button in the context pad when **multiple tasks** are selected, so you can change the type of all of them at once.
+A plugin for [Camunda Modeler](https://camunda.com/download/modeler/) that shows the **Change element** button in the context pad when **multiple elements** are selected, so you can change the type of all of them at once.
 
 By default, the Modeler only shows this menu when a single element is selected.
 
@@ -14,9 +14,13 @@ By default, the Modeler only shows this menu when a single element is selected.
 
 1. Select two or more tasks (Shift + click or area selection).
 2. Click the wrench icon (**Change element**) in the floating context pad.
-3. Pick the new type: Task, User, Service, Send, Receive, Manual, Business Rule or Script.
+3. Pick the new type from the menu (the same options the Modeler offers for a single element).
 
-The button appears when the selection contains at least one task; connectors and other elements in the selection are ignored (only the tasks are changed). Call Activity and Subprocess are not supported.
+The button follows these rules:
+
+- If the selection contains at least one task, only the tasks are changed (connectors and other elements are ignored).
+- If there are no tasks and all selected elements are of the same type (e.g. several sequence flows or gateways), they are all changed.
+- If there are mixed types and no task, the button is not shown.
 
 ### Compatibility
 
@@ -58,7 +62,7 @@ MIT
 
 ## Português
 
-Plugin para o [Camunda Modeler](https://camunda.com/download/modeler/) que exibe o botão **Change element** na paleta de contexto quando **várias tasks** estão selecionadas, permitindo alterar o tipo de todas de uma só vez.
+Plugin para o [Camunda Modeler](https://camunda.com/download/modeler/) que exibe o botão **Change element** na paleta de contexto quando **vários elementos** estão selecionados, permitindo alterar o tipo de todas de uma só vez.
 
 Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 
@@ -66,9 +70,13 @@ Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 
 1. Selecione duas ou mais tasks (Shift + clique ou seleção por área).
 2. Clique no ícone de chave inglesa (**Change element**) na paleta flutuante.
-3. Escolha o novo tipo: Task, User, Service, Send, Receive, Manual, Business Rule ou Script.
+3. Escolha o novo tipo no menu (as mesmas opções que o Modeler oferece para um único elemento).
 
-O botão aparece quando a seleção contém pelo menos uma task; conectores e outros elementos selecionados são ignorados (apenas as tasks são alteradas). Call Activity e Subprocess não são suportados.
+O botão segue estas regras:
+
+- Se a seleção contém pelo menos uma task, apenas as tasks são alteradas (conectores e outros elementos são ignorados).
+- Se não há tasks e todos os elementos selecionados são do mesmo tipo (ex.: vários fluxos de sequência ou gateways), todos são alterados.
+- Se há tipos misturados e nenhuma task, o botão não é exibido.
 
 ### Compatibilidade
 

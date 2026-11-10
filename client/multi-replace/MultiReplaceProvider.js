@@ -1,6 +1,4 @@
-import { TASK } from 'bpmn-js/lib/features/replace/ReplaceOptions';
-
-const POPUP_ID = 'multi-task-replace';
+const POPUP_ID = 'multi-element-replace';
 
 const TASK_TYPES = [
   'bpmn:Task',
@@ -13,10 +11,6 @@ const TASK_TYPES = [
   'bpmn:ScriptTask'
 ];
 
-const REPLACE_OPTIONS = TASK.filter(option =>
-  TASK_TYPES.includes(option.target.type)
-);
-
 function isTask(element) {
   return !!element.businessObject &&
     TASK_TYPES.includes(element.businessObject.$type) &&
@@ -24,10 +18,10 @@ function isTask(element) {
 }
 
 export default function MultiReplaceProvider(
-    contextPad, popupMenu, bpmnReplace, selection, translate
+    contextPad, popupMenu, replaceMenuProvider, selection, translate
 ) {
   this._popupMenu = popupMenu;
-  this._bpmnReplace = bpmnReplace;
+  this._replaceMenuProvider = replaceMenuProvider;
   this._selection = selection;
   this._translate = translate;
 
@@ -38,15 +32,46 @@ export default function MultiReplaceProvider(
 MultiReplaceProvider.$inject = [
   'contextPad',
   'popupMenu',
-  'bpmnReplace',
+  'replaceMenuProvider',
   'selection',
   'translate'
 ];
 
+/**
+ * Elements the change applies to:
+ * - at least one task selected: the tasks only;
+ * - otherwise, all elements of the same type;
+ * - otherwise (mixed types, no task): none.
+ */
+MultiReplaceProvider.prototype._getScope = function(elements) {
+  const tasks = elements.filter(isTask);
+
+  if (tasks.length) {
+    return tasks;
+  }
+
+  const sameType = elements.every(el => el.type === elements[0].type);
+
+  return sameType ? elements : [];
+};
+
+MultiReplaceProvider.prototype._getEntriesPerElement = function(scope) {
+  return scope.map(el => this._replaceMenuProvider.getPopupMenuEntries(el));
+};
+
 MultiReplaceProvider.prototype.getMultiElementContextPadEntries = function(elements) {
   const { _popupMenu: popupMenu, _translate: translate } = this;
 
-  if (!elements.some(isTask)) {
+  const scope = this._getScope(elements);
+
+  if (!scope.length) {
+    return {};
+  }
+
+  const hasEntries = this._getEntriesPerElement(scope)
+    .some(entries => Object.keys(entries).length);
+
+  if (!hasEntries) {
     return {};
   }
 
@@ -75,34 +100,44 @@ MultiReplaceProvider.prototype.getMultiElementContextPadEntries = function(eleme
 };
 
 MultiReplaceProvider.prototype.getPopupMenuEntries = function(elements) {
+  const scope = this._getScope(elements);
+  const perElement = this._getEntriesPerElement(scope);
+
+  // union of options; each element runs its own entry, so elements
+  // already of the target type are skipped
   const entries = {};
 
-  REPLACE_OPTIONS.forEach(option => {
-    const tasks = elements.filter(isTask);
-    const allSame = tasks.every(el => el.type === option.target.type);
+  perElement.forEach(elementEntries => {
+    Object.keys(elementEntries).forEach(key => {
+      if (entries[key]) {
+        return;
+      }
 
-    if (allSame) {
-      return;
-    }
-
-    const label = typeof option.label === 'function' ? option.label(tasks[0]) : option.label;
-
-    entries[option.actionName] = {
-      label: this._translate(label),
-      className: option.className,
-      action: () => this._replaceAll(tasks, option.target, elements)
-    };
+      entries[key] = {
+        label: elementEntries[key].label,
+        className: elementEntries[key].className,
+        action: () => this._applyAll(key, scope, perElement, elements)
+      };
+    });
   });
 
   return entries;
 };
 
-MultiReplaceProvider.prototype._replaceAll = function(tasks, target, selected) {
-  const replaced = tasks
-    .filter(el => el.type !== target.type)
-    .map(el => this._bpmnReplace.replaceElement(el, target));
+MultiReplaceProvider.prototype._applyAll = function(key, scope, perElement, selected) {
+  const results = scope.map((el, index) => {
+    const entry = perElement[index][key];
 
-  const others = selected.filter(el => !tasks.includes(el));
+    if (!entry) {
+      return el;
+    }
 
-  this._selection.select(replaced.concat(others));
+    const result = entry.action();
+
+    return result && result.id ? result : el;
+  });
+
+  const others = selected.filter(el => !scope.includes(el));
+
+  this._selection.select(results.concat(others));
 };

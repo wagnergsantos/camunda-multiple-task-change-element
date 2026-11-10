@@ -16,11 +16,18 @@ By default, the Modeler only shows this menu when a single element is selected.
 2. Click the wrench icon (**Change element**) in the floating context pad.
 3. Pick the new type from the menu (the same options the Modeler offers for a single element).
 
-The button follows these rules:
+When does the button appear, and what does it change?
 
-- If the selection contains at least one task, the menu works as the task's **Change element** menu and applies **only to the tasks**. Everything else in the selection (connectors, gateways, events...) is ignored and left unchanged. Example: selecting 3 tasks and 2 connectors lets you change the 3 tasks.
-- If there are no tasks and all selected elements are of the same type (e.g. several sequence flows or gateways), they are all changed.
-- If there are mixed types and no task, the button is not shown.
+| What you selected | Button | What gets changed |
+|---|---|---|
+| 3 tasks | ✅ Shown | The 3 tasks |
+| 3 tasks + 2 connectors | ✅ Shown | **Only the 3 tasks** (connectors are untouched) |
+| 2 tasks + 1 gateway | ✅ Shown | **Only the 2 tasks** (gateway is untouched) |
+| 3 sequence flows (no task) | ✅ Shown | The 3 sequence flows |
+| 2 gateways (no task) | ✅ Shown | The 2 gateways |
+| 1 gateway + 1 connector (no task) | ❌ Not shown | Nothing |
+
+In short: **if there is at least one task in the selection, only the tasks are changed.** Without tasks, the elements must all be of the same type.
 
 ### Compatibility
 
@@ -72,11 +79,18 @@ Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 2. Clique no ícone de chave inglesa (**Change element**) na paleta flutuante.
 3. Escolha o novo tipo no menu (as mesmas opções que o Modeler oferece para um único elemento).
 
-O botão segue estas regras:
+Quando o botão aparece e o que ele altera?
 
-- Se a seleção contém pelo menos uma task, o menu funciona como o **Change element** da task e se aplica **somente às tasks**. O restante da seleção (conectores, gateways, eventos...) é ignorado e permanece inalterado. Exemplo: ao selecionar 3 tasks e 2 conectores, você altera as 3 tasks.
-- Se não há tasks e todos os elementos selecionados são do mesmo tipo (ex.: vários fluxos de sequência ou gateways), todos são alterados.
-- Se há tipos misturados e nenhuma task, o botão não é exibido.
+| O que você selecionou | Botão | O que é alterado |
+|---|---|---|
+| 3 tasks | ✅ Aparece | As 3 tasks |
+| 3 tasks + 2 conectores | ✅ Aparece | **Somente as 3 tasks** (conectores não mudam) |
+| 2 tasks + 1 gateway | ✅ Aparece | **Somente as 2 tasks** (o gateway não muda) |
+| 3 fluxos de sequência (sem task) | ✅ Aparece | Os 3 fluxos de sequência |
+| 2 gateways (sem task) | ✅ Aparece | Os 2 gateways |
+| 1 gateway + 1 conector (sem task) | ❌ Não aparece | Nada |
+
+Resumindo: **se houver pelo menos uma task na seleção, só as tasks são alteradas.** Sem tasks, os elementos precisam ser todos do mesmo tipo.
 
 ### Compatibilidade
 

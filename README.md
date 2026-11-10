@@ -12,7 +12,7 @@ By default, the Modeler only shows this menu when a single element is selected.
 
 ### Usage
 
-1. Select two or more tasks (Shift + click or area selection).
+1. Select two or more elements (Shift + click or area selection).
 2. Click the wrench icon (**Change element**) in the floating context pad.
 3. Pick the new type from the menu (the same options the Modeler offers for a single element).
 
@@ -68,7 +68,7 @@ Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 
 ### Uso
 
-1. Selecione duas ou mais tasks (Shift + clique ou seleção por área).
+1. Selecione dois ou mais elementos (Shift + clique ou seleção por área).
 2. Clique no ícone de chave inglesa (**Change element**) na paleta flutuante.
 3. Escolha o novo tipo no menu (as mesmas opções que o Modeler oferece para um único elemento).
 

@@ -18,7 +18,7 @@ By default, the Modeler only shows this menu when a single element is selected.
 
 The button follows these rules:
 
-- If the selection contains at least one task, only the tasks are changed (connectors and other elements are ignored).
+- If the selection contains at least one task, the menu works as the task's **Change element** menu and applies **only to the tasks**. Everything else in the selection (connectors, gateways, events...) is ignored and left unchanged. Example: selecting 3 tasks and 2 connectors lets you change the 3 tasks.
 - If there are no tasks and all selected elements are of the same type (e.g. several sequence flows or gateways), they are all changed.
 - If there are mixed types and no task, the button is not shown.
 
@@ -74,7 +74,7 @@ Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 
 O botão segue estas regras:
 
-- Se a seleção contém pelo menos uma task, apenas as tasks são alteradas (conectores e outros elementos são ignorados).
+- Se a seleção contém pelo menos uma task, o menu funciona como o **Change element** da task e se aplica **somente às tasks**. O restante da seleção (conectores, gateways, eventos...) é ignorado e permanece inalterado. Exemplo: ao selecionar 3 tasks e 2 conectores, você altera as 3 tasks.
 - Se não há tasks e todos os elementos selecionados são do mesmo tipo (ex.: vários fluxos de sequência ou gateways), todos são alterados.
 - Se há tipos misturados e nenhuma task, o botão não é exibido.
 

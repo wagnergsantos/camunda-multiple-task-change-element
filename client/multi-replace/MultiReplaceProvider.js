@@ -46,7 +46,7 @@ MultiReplaceProvider.$inject = [
 MultiReplaceProvider.prototype.getMultiElementContextPadEntries = function(elements) {
   const { _popupMenu: popupMenu, _translate: translate } = this;
 
-  if (!elements.length || !elements.every(isTask)) {
+  if (!elements.some(isTask)) {
     return {};
   }
 
@@ -78,28 +78,31 @@ MultiReplaceProvider.prototype.getPopupMenuEntries = function(elements) {
   const entries = {};
 
   REPLACE_OPTIONS.forEach(option => {
-    const allSame = elements.every(el => el.type === option.target.type);
+    const tasks = elements.filter(isTask);
+    const allSame = tasks.every(el => el.type === option.target.type);
 
     if (allSame) {
       return;
     }
 
-    const label = typeof option.label === 'function' ? option.label(elements[0]) : option.label;
+    const label = typeof option.label === 'function' ? option.label(tasks[0]) : option.label;
 
     entries[option.actionName] = {
       label: this._translate(label),
       className: option.className,
-      action: () => this._replaceAll(elements, option.target)
+      action: () => this._replaceAll(tasks, option.target, elements)
     };
   });
 
   return entries;
 };
 
-MultiReplaceProvider.prototype._replaceAll = function(elements, target) {
-  const replaced = elements
+MultiReplaceProvider.prototype._replaceAll = function(tasks, target, selected) {
+  const replaced = tasks
     .filter(el => el.type !== target.type)
     .map(el => this._bpmnReplace.replaceElement(el, target));
 
-  this._selection.select(replaced);
+  const others = selected.filter(el => !tasks.includes(el));
+
+  this._selection.select(replaced.concat(others));
 };

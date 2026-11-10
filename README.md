@@ -16,7 +16,7 @@ By default, the Modeler only shows this menu when a single element is selected.
 2. Click the wrench icon (**Change element**) in the floating context pad.
 3. Pick the new type: Task, User, Service, Send, Receive, Manual, Business Rule or Script.
 
-The button only appears when **all** selected elements are tasks. Call Activity and Subprocess are not supported.
+The button appears when the selection contains at least one task; connectors and other elements in the selection are ignored (only the tasks are changed). Call Activity and Subprocess are not supported.
 
 ### Compatibility
 
@@ -68,7 +68,7 @@ Por padrão, o Modeler só mostra esse menu com um único elemento selecionado.
 2. Clique no ícone de chave inglesa (**Change element**) na paleta flutuante.
 3. Escolha o novo tipo: Task, User, Service, Send, Receive, Manual, Business Rule ou Script.
 
-O botão só aparece quando **todos** os elementos selecionados são tasks. Call Activity e Subprocess não são suportados.
+O botão aparece quando a seleção contém pelo menos uma task; conectores e outros elementos selecionados são ignorados (apenas as tasks são alteradas). Call Activity e Subprocess não são suportados.
 
 ### Compatibilidade
 

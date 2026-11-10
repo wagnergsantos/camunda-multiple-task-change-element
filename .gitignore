@@ -1,0 +1,9 @@
+node_modules/
+client/client-bundle.js
+client/client-bundle.js.map
+*.log
+.idea/
+.vscode/
+*.zip
+.DS_Store
+Thumbs.db

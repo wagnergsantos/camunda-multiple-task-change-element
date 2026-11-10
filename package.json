@@ -1,6 +1,6 @@
 {
   "name": "camunda-multiple-task-change-element",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Exibe o menu Change element ao selecionar várias tasks no Camunda Modeler",
   "main": "index.js",
   "scripts": {

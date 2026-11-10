@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx webpack
+
+      - name: Package plugin
+        run: |
+          NAME=camunda-multiple-task-change-element
+          mkdir -p "dist/$NAME/client"
+          cp index.js "dist/$NAME/"
+          cp client/client-bundle.js "dist/$NAME/client/"
+          cd dist
+          zip -r "../$NAME-${GITHUB_REF_NAME#v}.zip" "$NAME"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '*.zip'
+          generate_release_notes: true
